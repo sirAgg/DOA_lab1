@@ -1,6 +1,8 @@
 #ifndef __STACK_H_
 #define __STACK_H_
 
+#include <cstring>
+
 #define STACK_DEFAULT_SIZE 64
 
 template<typename T>
