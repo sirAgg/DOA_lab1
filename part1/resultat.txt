@@ -1,0 +1,15 @@
+Testing Array
+-----------------------
+Create Students took: 153.316ms
+Create Courses took: 70.478ms
+Remove some courses took: 12.247ms
+Remove some students took: 283444ms
+Total took: 283680ms
+
+Testing LinkedList
+-----------------------
+Create Students took: 24.738ms
+Create Courses took: 321617ms
+Remove some courses took: 58964.5ms
+Remove some students took: 28827.6ms
+Total took: 409434ms
