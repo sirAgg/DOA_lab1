@@ -1,81 +1,127 @@
 #include <stdio.h>
+#include <iostream>
+#include <cstdlib>
+#include <time.h>
 #include <stack>
 #include <queue>
 
 #include "timer.h"
 #include "Stack.h"
+#include "Queue.h"
 
-const char UPPER_CASE_BIT = ~('A' & 'a');
+const char LOWER_CASE_BIT = 'A' ^ 'a';
 
 char get_valid_char(char c)
 {
-    c |= UPPER_CASE_BIT;
-    if('A' <= c && c <= 'Z') return c;
+    c |= LOWER_CASE_BIT;
+    if('a' <= c && c <= 'z') return c;
     return 0;
 }
 
-bool is_palindrome_stack(const char* text)
+std::string create_valid_string(std::string str)
 {
-    Stack<char> stack;
-
-    const char* c = text;
-    while(*c != '\0')
+    std::string ret;
+    for (char c : str)
     {
-        char t = get_valid_char(*c);
-        if(t) stack.push(t);
-        c++;
-    }
-
-    c = text;
-    while(*c != '\0')
-    {
-        char t = get_valid_char(*c);
+        char t = get_valid_char(c);
         if(t)
-        {
-            if(stack.peek() != t)
-                return false;
-            stack.pop();
-        }
-        c++;
+            ret.push_back(t);
     }
+    return ret;
+}
+
+bool is_palindrome_stack(std::string text)
+{
+    Stack<char> begining_half;
+    Stack<char> end_half;
+
+    Timer t("Stack only"); // Timer starts here
+
+    for(int i = 0; i < text.size()/2; i++)
+        begining_half.push(text[i]);
+
+    for(int i = 0; i < text.size()/2; i++)
+        end_half.push(text[text.size()-i-1]);
+
+
+    while(begining_half.size() > 0)
+    {
+        if( begining_half.peek() != end_half.peek() )
+        {
+            t.stop();
+            return false;
+        }
+
+        begining_half.pop();
+        end_half.pop();
+    }
+
+    t.stop();
 
     return true;
 }
 
-bool is_palindrome_queue(const char* text)
+bool is_palindrome_queue(std::string text)
 {
-    std::queue<char> queue;
-    std::stack<char> stack;
+    Queue<char> queue;
+    Stack<char> stack;
 
-    const char* c = text;
-    while(*c != '\0')
-    {
-        char t = get_valid_char(*c);
-        if(t)
-        {
-            stack.push(t);
-            queue.push(*c);
-        }
-        c++;
-    }
+    Timer t("Stack and Queue"); // Timer starts here
 
-    while(!stack.empty())
+    int half_size = text.size()/2;
+
+    for(int i = 0; i < half_size; i++)
+        stack.push(text[i]);
+
+
+    for(int i = 0; i < half_size; i++)
+        queue.enqueue(text[text.size() - half_size + i]);
+
+
+    while(queue.size() > 0)
     {
-        if(stack.top() == queue.front())
+        if( stack.peek() != queue.peek() )
         {
-            stack.pop();
-            queue.pop();
-        }
-        else
+            t.stop();
             return false;
+        }
+
+        stack.pop();
+        queue.dequeue();
     }
+
+    t.stop();
 
     return true;
 }
 
 int main(int argc, char *argv[])
 {
-    TIME_FUNC_N(printf("%d\n", is_palindrome_stack("du har bra hud")), "stack");
-    TIME_FUNC_N(printf("%d\n", is_palindrome_queue("du har bra hud")), "queue");
+    srand(time(NULL));
+
+    for(int j = 0; j < 200; j++)
+    {
+        std::string str;
+        Stack<char> string_stack;
+        int string_len = 1000;
+        for(int i = 0; i < string_len/2; i++)
+        {
+            char c = 'A' + rand()%28;
+            str.push_back(c);
+            string_stack.push(c);
+        }
+        for(int i = 0; i < string_len/2; i++)
+        {
+            str.push_back(string_stack.peek());
+            string_stack.pop();
+        }
+
+        std::cout << "Checking: " << str << std::endl;
+        // printf("%d\n", is_palindrome_stack(create_valid_string(str)));
+        // printf("%d\n", is_palindrome_queue(create_valid_string(str)));
+        is_palindrome_stack(create_valid_string(str));
+        is_palindrome_queue(create_valid_string(str));
+    }
+
     return 0;
 }
