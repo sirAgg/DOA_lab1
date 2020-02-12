@@ -57,14 +57,19 @@ Queue<T>::~Queue()
 template<typename T>
 void Queue<T>::enqueue(T element)
 {
-    if (end == block_size -1)
+    if (end == block_size-1)
     {
         // reallocate array and copy over current data
-        T* tmp = new T[block_size*2];
+        // the allocated size may shrink or grow depending on used size
+        if(size() < block_size/4)
+            block_size /= 2;
+        else if (size() > block_size*3/4)
+            block_size *= 2;
+
+        T* tmp = new T[block_size];
         memcpy(tmp, data+begining, (end-begining+1)*sizeof(T));
         delete[] data;
         data = tmp;
-        block_size *= 2;
 
         end = end-begining;
         begining = 0;

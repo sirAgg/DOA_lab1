@@ -98,12 +98,13 @@ bool is_palindrome_queue(std::string text)
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
+    int string_len = 1000;
+    int n_tests = 200;
 
-    for(int j = 0; j < 200; j++)
+    for(int j = 0; j < n_tests; j++)
     {
         std::string str;
         Stack<char> string_stack;
-        int string_len = 1000;
         for(int i = 0; i < string_len/2; i++)
         {
             char c = 'A' + rand()%28;

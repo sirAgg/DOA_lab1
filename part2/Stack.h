@@ -37,7 +37,6 @@ void Stack<T>::print()
     std::cout << std::endl;
 }
 
-
 template<typename T>
 Stack<T>::Stack(int size) : block_size(size)
 {
