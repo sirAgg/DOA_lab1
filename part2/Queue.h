@@ -73,7 +73,6 @@ void Queue<T>::enqueue(T element)
 
         end = end-begining;
         begining = 0;
-        // std::cout << "reallocating queue: " << block_size << " | " << size() << "\n";
     }
 
     end++;

@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include <thread>
+
 #include "timer.h"
 
 #include "DataBaseLinkedList.h"
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
 {
     DataBaseArray array_db;
     DataBaseLinkedList list_db;
-    int n_students = 1000;
+    int n_students = 1000000;
     int seed = 0;
 
     printf("\nTesting Array\n-----------------------\n");

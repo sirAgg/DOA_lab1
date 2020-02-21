@@ -2,8 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-#include <stack>
-#include <queue>
 
 #include "timer.h"
 #include "Stack.h"
@@ -98,28 +96,51 @@ bool is_palindrome_queue(std::string text)
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
-    int string_len = 1000;
-    int n_tests = 200;
+    int string_len = 100;
+    int n_tests = 100000;
 
     for(int j = 0; j < n_tests; j++)
     {
         std::string str;
-        Stack<char> string_stack;
-        for(int i = 0; i < string_len/2; i++)
-        {
-            char c = 'A' + rand()%28;
-            str.push_back(c);
-            string_stack.push(c);
-        }
-        for(int i = 0; i < string_len/2; i++)
-        {
-            str.push_back(string_stack.peek());
-            string_stack.pop();
-        }
 
+        { // Generete Test Word
+            // Randomly choose if the test word is a palindrome
+            if(rand()%4)
+            {
+                //
+                // Word is palindrome
+                //
+                Stack<char> string_stack;
+                for(int i = 0; i < string_len/2; i++)
+                {
+                    char c = 'A' + rand()%28;
+                    str.push_back(c);
+                    string_stack.push(c);
+                }
+                for(int i = 0; i < string_len/2; i++)
+                {
+                    str.push_back(string_stack.peek());
+                    string_stack.pop();
+                }
+            }
+            else
+            {
+                //
+                // Word is not palindrome
+                //
+                for(int i = 0; i < string_len; i++)
+                {
+                    char c = 'A' + rand()%28;
+                    str.push_back(c);
+                }
+            }
+
+        } // end Generate Test Word
+
+        //
+        // Run test
+        //
         std::cout << "Checking: " << str << std::endl;
-        // printf("%d\n", is_palindrome_stack(create_valid_string(str)));
-        // printf("%d\n", is_palindrome_queue(create_valid_string(str)));
         is_palindrome_stack(create_valid_string(str));
         is_palindrome_queue(create_valid_string(str));
     }

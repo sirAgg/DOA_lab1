@@ -22,7 +22,7 @@ struct Timer
             auto stop_time = std::chrono::high_resolution_clock::now();
             auto start = std::chrono::time_point_cast<std::chrono::nanoseconds>(start_time);
             auto end = std::chrono::time_point_cast<std::chrono::nanoseconds>(stop_time);
-            std::cout << name << " took: " << (float)((end-start).count())/1000000.0f << "ns" << std::endl;
+            std::cout << name << " took: " << (float)((end-start).count())/1000000.0f << "ms" << std::endl;
             stopped = true;
         }
     }

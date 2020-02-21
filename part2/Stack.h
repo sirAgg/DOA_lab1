@@ -30,7 +30,7 @@ private:
 template<typename T>
 void Stack<T>::print()
 {
-    for(int i = 0; i<=top_idx; i++)
+    for(int i = 0; i <= top_idx; i++)
     {
         std::cout << data[i] << " ";
     }
@@ -66,7 +66,6 @@ void Stack<T>::push(T element)
         delete[] data;
         data = tmp;
         block_size *= 2;
-        // std::cout << "reallocating stack: " << block_size << " | " << size() << "\n";
     }
 
     top_idx++;
